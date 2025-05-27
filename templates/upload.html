@@ -1,97 +1,265 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendeteksi Plagiarisme</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        textarea, input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
-            background: #007BFF;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        #loading {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            padding-top: 20%;
-            font-family: Arial;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendeteksi Plagiarisme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
 
-        .spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: auto;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(249, 244, 238);
+    }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    .container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: rgb(249, 244, 238);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    textarea{
+      max-height: 400px;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    #wordCount {
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+      margin-top: -10px;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.95);
+      z-index: 999;
+      text-align: center;
+      padding-top: 15%;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 20px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .progress-container {
+      width: 60%;
+      background-color: #e0e0e0;
+      border-radius: 20px;
+      margin: 10px auto;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 20px;
+      background-color: #3498db;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+    .cancel-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #e74c3c;
+      color: white;
+      width: 200px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+      background: #c0392b;
+    }
+
+    @media screen and (max-width: 640px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .progress-container {
+        width: 80%;
+      }
+    }
+  </style>
 </head>
+{% include "sidebar.html" %}
 <body>
-    <div class="container">
-        <h2>Pendeteksi Plagiarisme</h2>
-        <form method="post" enctype="multipart/form-data" onsubmit="showLoading()">
-            <textarea name="text" id="textInput" placeholder="Masukkan teks di sini..."></textarea>
-            <input type="file" name="testfile"  id="fileInput" accept=".txt, .pdf, .docx">
-            <button type="submit">Unggah dan Cek Plagiarisme</button>
-        </form>
-        <div id="loading">
-            <div class="spinner"></div>
-            <p>Memproses dokumen, mohon tunggu...</p>
-        </div>
-    
-        <script>
-            function showLoading() {
-                document.getElementById("loading").style.display = "block";
-            }
-        </script>
-        <div class="result" id="result"></div>
+  <div class="container">
+    <h2>Pendeteksi Plagiarisme</h2>
+    <form id="plagiarismForm" method="post" action="{{ url_for('hasil') }}" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <textarea name="text" id="textInput" placeholder="Masukkan teks di sini..." rows="6"></textarea>
+      <div id="wordCount">0 / 500 kata</div>
+      <input type="file" name="testfile" id="fileInput" accept=".txt, .pdf, .docx">
+      <button type="submit">Cek Plagiarisme</button>
+    </form>
+  </div>
+
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Memproses dokumen... (<span id="progressPercent">0%</span>)</p>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
+    <button class="cancel-btn" onclick="cancelProcess()">Batalkan Proses</button>
+  </div>
+  {% include "span.html" %}
+  <script>
+  const form = document.getElementById('plagiarismForm');
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  const progressBar = document.getElementById('progressBar');
+  const progressPercent = document.getElementById('progressPercent');
+  const textInput = document.getElementById('textInput');
+  const fileInput = document.getElementById('fileInput');
+  const wordCount = document.getElementById('wordCount');
+
+  let fakeProgress = 0;
+  let progressInterval = null;
+  let cancelled = false;
+
+  form.addEventListener('submit', function (e) {
+    cancelled = false;
+    loadingOverlay.style.display = 'block';
+
+    fakeProgress = 0;
+    progressBar.style.width = '0%';
+    progressPercent.textContent = '0%';
+
+    progressInterval = setInterval(() => {
+      if (fakeProgress < 90 && !cancelled) {
+        fakeProgress += Math.random() * 5;
+        updateProgress(fakeProgress);
+      }
+    }, 300);
+  });
+
+  function updateProgress(value) {
+    const val = Math.min(100, Math.floor(value));
+    progressBar.style.width = val + '%';
+    progressPercent.textContent = val + '%';
+  }
+
+  function cancelProcess() {
+    cancelled = true;
+    clearInterval(progressInterval);
+    loadingOverlay.style.display = 'none';
+    alert('Proses dibatalkan oleh pengguna.');
+  }
+
+  function countWords(text) {
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function updateWordCount() {
+    const currentWords = countWords(textInput.value);
+    wordCount.textContent = `${currentWords} / 500 kata`;
+  }
+
+  textInput.addEventListener('keydown', function (e) {
+    const currentWords = countWords(textInput.value);
+    const selectedText = window.getSelection().toString();
+
+    // Jika sudah 500 kata dan tidak sedang menghapus atau menyeleksi, blok input baru
+    if (
+      currentWords >= 500 &&
+      !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) &&
+      selectedText.length === 0
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  textInput.addEventListener('input', function () {
+    let words = textInput.value.trim().split(/\s+/).filter(Boolean);
+    if (words.length > 500) {
+      textInput.value = words.slice(0, 500).join(' ');
+      words = textInput.value.trim().split(/\s+/);
+    }
+    updateWordCount();
+    fileInput.disabled = textInput.value.trim().length > 0;
+  });
+
+  fileInput.addEventListener('change', function () {
+    textInput.disabled = this.files.length > 0;
+  });
+
+  function validateForm() {
+    const textFilled = textInput.value.trim().length > 0;
+    const fileFilled = fileInput.files.length > 0;
+
+    if (!textFilled && !fileFilled) {
+      alert("⚠️ Harap isi teks atau unggah file terlebih dahulu.");
+      return false;
+    }
+
+    if (textFilled && fileFilled) {
+      alert("⚠️ Hanya salah satu yang boleh diisi, bukan keduanya.");
+      return false;
+    }
+
+    return true;
+  }
+  </script>
 </body>
 </html>
-

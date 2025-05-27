@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendeteksi Plagiarisme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(249, 244, 238);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: rgb(249, 244, 238);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    textarea{
+      max-height: 400px;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+    label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .message {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    border-radius: 8px;
+    color: #2e7d32;
+    font-weight: 500;
+  }
+
+  .error {
+    background-color: #fdecea;
+    border-left: 5px solid #e53935;
+    color: #b71c1c;
+  }
+    #wordCount {
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+      margin-top: -10px;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    .fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+    }
+
+    .fade-in {
+      opacity: 1;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media screen and (max-width: 640px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .progress-container {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+{% include "sidebar.html" %}
+<body class="fade-in">
+  <div class="container">
+    <h2>Upload Jurnal Referensi Realtime</h2>
+    <form id="plagiarismForm" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <label for="nama_jurnal">Nama Jurnal:</label>
+      <input type="text" id="nama_jurnal" name="nama_jurnal" required>
+      <input type="file" id="file" name="file" accept=".pdf" required>
+      <button type="submit">Unggah Jurnal</button>
+    </form>
+  </div>
+  {% if message %}
+      <div class="message {% if 'Gagal' in message %}error{% endif %}">
+        {{ message }}
+      </div>
+  {% endif %}
+  {% include "span.html" %}
+  <script>
+    document.querySelectorAll('a[href]').forEach(link => {
+  const url = link.getAttribute('href');
+  if (url.startsWith('#') || url.startsWith('javascript:')) return;
+
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+      window.location.href = this.href;
+    }, 400); // sesuai durasi transisi
+  });
+});
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mobile Sidebar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      /* border: 1px solid black; */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    align-items: center;
+    color: rgb(24, 22, 22);
+    position: relative;
+    z-index: 10;
+    /* padding: 5px 15px; */
+    background-color: rgb(249, 244, 238);
+    margin-bottom: 100px;
+    }
+    .logo img{
+    width: 200px;
+    height: 50px;
+    }
+
+    .hamburger {
+        justify-content: center;  
+    align-items: center;   
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: rgb(10, 9, 9);
+      cursor: pointer;
+      display: none;
+      padding-top: 0;
+      /* padding-bottom: 50px; */
+    }
+    /* Sidebar styles */
+    .mobile-sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      background-image: url('../static/bg_img.jpg');
+      background-size: cover;          
+        background-repeat: no-repeat;   
+        background-position: center;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      z-index: 1000;
+      transition: right 0.4s ease;
+    }
+
+    .mobile-sidebar.active {
+      right: 0;
+    }
+    a.active {
+    background-color: rgb(86, 84, 104);
+    }
+
+    .mobile-sidebar a {
+      padding: 16px 0;
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+      align-items: center;   
+      justify-content: center;
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
+    }
+    .mobile-sidebar a.active {
+      background-color: #67899f;
+    }
+
+    .close-sidebar {
+      font-size: 32px;
+      background: none;
+      border: none;
+      align-self: flex-end;
+      cursor: pointer;
+      color: #333;
+      margin-bottom: 24px;
+    }
+    .navbar a {
+    min-width: 160px;
+    display: inline-block;
+    border-radius: 50px;
+    padding: 5px 30px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000;
+    
+    }
+    
+    .navbar .log {
+        color: #ffffff;
+        background-color: rgb(49, 71, 217);
+    }
+    .navbar {
+    display: flex;
+    justify-content: center;  
+    align-items: center;       
+    gap: 10px;                    
+    padding-top: 20px;             
+    box-sizing: border-box;
+    height: 50px;             
+    padding-bottom: 40px;
+    }
+
+    
+    nav.navbar a.active {
+    background-color: rgb(245, 95, 20);
+    color: white;
+    border-radius: 50px;
+    
+    }
+
+    /* Tombol Toggle Dark Mode */
+    .dark-toggle {
+      font-size: 18px;
+      border: none;
+      background:linear-gradient(rgb(78, 67, 142) , rgb(14, 14, 79));
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 50px;
+      transition: background-color 0.3s ease;
+
+    }
+
+    .dark-toggle:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* DARK MODE STYLE */
+    body.dark-mode {
+      background-color: #121212;
+      color: #f5f5f5;
+    }
+    body.dark-mode {
+      background-color: #121212;
+      color: #f5f5f5;
+    }
+
+    body.dark-mode header {
+      background-color: #1e1e1e;
+    }
+
+    body.dark-mode .navbar a {
+      color: #f5f5f5;
+      border-color: #888;
+    }
+
+    body.dark-mode .navbar .log {
+      background-color: #3f51b5;
+      color: white;
+    }
+    body.dark-mode .hamburger{
+        color: white;
+    }
+
+    body.dark-mode .navbar .cek {
+      border: 1px solid #ffcc00;
+      color: white;
+      background-color: transparent;
+    }
+
+    body.dark-mode .mobile-sidebar {
+      background-color: #1e1e1e;
+      background-image: none;
+    }
+
+    body.dark-mode .mobile-sidebar a {
+      color: #f5f5f5;
+      border-bottom: 1px solid #555;
+    }
+    .hamburger:hover {
+      background-color: transparent;
+    }
+    .navbar .cek {
+        border: 1px solid ;
+        border-color: rgb(255, 228, 53);
+    }
+
+    @media screen and (max-width: 768px) {
+      nav.navbar {
+        display: none;
+      }
+      header{
+        justify-content: space-between;
+        margin-bottom: 0;
+        padding: 0;
+      }
+      .logo img{
+        max-width:  130px;
+        max-height: 30px;
+        padding-top: 0px;
+        padding-bottom: 0;
+        }
+        .logo{
+            margin: 0;
+            padding: 0;
+        }
+        .hamburger {
+            display: block;
+            width: auto;
+            height: auto;
+            font-size: 30px;
+            padding-bottom: 20px;
+            background-color: transparent;
+        }
+
+      .hamburger {
+        display: block;
+        width: 60px;
+
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" >
+        <img src="../static/logo.png" alt="">
+    </div>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <nav class="navbar">
+        <a href="/" class="cek">Cek Plagi..</a>
+        <a href="/upload_jurnal" class="cek">Upload Jur..</a>
+        <a href="/fitur" class="log">Fitur</a>
+        <button id="darkModeToggle" class="dark-toggle">🌙</button>
+    </nav>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <button class="close-sidebar" id="closeSidebar">&times;</button>
+        <a href="/" >Cek Plagiarsm</a>
+        <a href="/upload_jurnal">Upload Jurnal</a>
+        <a href="/fitur" class="bagus">Fitur</a>
+        <button id="darkModeToggle" class="dark-toggle">🌙</button>
+  </div>
+
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('mobileSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.add('active');
+    //   hamburger.style.display = 'none';
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      setTimeout(() => {
+        hamburger.style.display = 'block';
+      }, 400); 
+    });
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('nav.navbar a');
+
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    }
+  });
+  const sidebarLinks = document.querySelectorAll('.mobile-sidebar a');
+  sidebarLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    }
+  });
+  const toggleButton = document.getElementById('darkModeToggle');
+  toggleButton.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    toggleButton.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+  });
+  </script>
+  
+</body>
+</html>
