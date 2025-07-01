@@ -33,18 +33,7 @@
     height: 50px;
     }
 
-    .hamburger {
-        justify-content: center;  
-    align-items: center;   
-      font-size: 28px;
-      background: none;
-      border: none;
-      color: rgb(10, 9, 9);
-      cursor: pointer;
-      display: none;
-      padding-top: 0;
-      /* padding-bottom: 50px; */
-    }
+    
     /* Sidebar styles */
     .mobile-sidebar {
       position: fixed;
@@ -53,10 +42,6 @@
       width: 100%;
       height: 100%;
       background-color: #ffffff;
-      background-image: url('../static/bg_img.jpg');
-      background-size: cover;          
-        background-repeat: no-repeat;   
-        background-position: center;
       display: flex;
       flex-direction: column;
       padding: 32px 24px;
@@ -136,6 +121,7 @@
       cursor: pointer;
       padding: 5px 10px;
       border-radius: 50px;
+      margin-top: 20px;
       transition: background-color 0.3s ease;
 
     }
@@ -186,8 +172,16 @@
       color: #f5f5f5;
       border-bottom: 1px solid #555;
     }
-    .hamburger:hover {
-      background-color: transparent;
+    .hamburger {
+      justify-content: center;  
+      align-items: center;   
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: rgb(10, 9, 9);
+      cursor: pointer;
+      display: none;
+      padding-top: 0;
     }
     .navbar .cek {
         border: 1px solid ;
@@ -240,7 +234,7 @@
     <nav class="navbar">
         <a href="/" class="cek">Cek Plagi..</a>
         <a href="/upload_jurnal" class="cek">Upload Jur..</a>
-        <a href="/fitur" class="log">Login Admin</a>
+        <a href="/preprocess-all" class="log">fitur</a>
         <button id="darkModeToggle" class="dark-toggle">🌙</button>
     </nav>
   </header>
@@ -250,7 +244,7 @@
     <button class="close-sidebar" id="closeSidebar">&times;</button>
         <a href="/" >Cek Plagiarsm</a>
         <a href="/upload_jurnal">Upload Jurnal</a>
-        <a href="/fitur" class="bagus">Fitur</a>
+        <a href="/preprocess-all" class="bagus">Fitur</a>
         <button id="darkModeToggle" class="dark-toggle">🌙</button>
   </div>
 

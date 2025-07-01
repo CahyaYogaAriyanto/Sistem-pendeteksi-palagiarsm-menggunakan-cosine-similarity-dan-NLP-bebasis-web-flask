@@ -139,6 +139,7 @@ def read_reference_docs():
             docs.append((filename, text, processed))
         except Exception as e:
             print(f"❌ Gagal mengunduh atau memproses file {filename}: {e}")
+    print('sukses')
     return docs
 
 
@@ -175,6 +176,10 @@ def find_matching_sentences(test_sentences, reference_sentences, threshold=0.7, 
 
     return matching_sentences
 
+def lop_prosesing():
+    read_reference_docs()
+
+
 @app.route('/')
 def index():
     return render_template('upload.html')
@@ -209,10 +214,10 @@ def hasil():
 
         # Tokenisasi kalimat dari teks uji
         test_sentences = sent_tokenize(test_text)
-        reference_docs = read_reference_docs()
+        # reference_docs = read_reference_docs()
 
         results = []
-        matched_sentences = set()  # Untuk menghindari hitung duplikat kalimat
+        matched_sentences = set()
 
         for ref_filename, ref_text, _ in reference_docs:
             ref_sentences = sent_tokenize(ref_text)
@@ -240,9 +245,8 @@ def hasil():
 
         plagiarism_percent = round((total_matches / total_sentences * 100), 2) if total_sentences > 0 else 0.0
         if plagiarism_percent > 100:
-            plagiarism_percent = 100.0  # Maksimal 100%
+            plagiarism_percent = 100.0  
 
-        # Hapus file setelah diproses (jika ada)
         if uploaded_file and filename and os.path.exists(filepath):
             os.remove(filepath)
 
@@ -266,6 +270,7 @@ def upload_jurnal():
             filename = file.filename
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+
             # Upload ke Supabase Storage
             bucket_name = 'jurnal'  # ganti sesuai nama bucket kamu
             with open(file_path, 'rb') as f:
@@ -281,9 +286,10 @@ def upload_jurnal():
                         "nama_jurnal": nama_jurnal
                     }).execute()
                     message = f"Sukses mengunggah dan menyimpan data jurnal: {filename}"
+                    global reference_docs
+                    reference_docs = read_reference_docs()
                 except Exception as e:
                     message = f"Gagal mengunggah file: {e}"
-
     return render_template('upload_jurnal.html', message=message)
 @app.route('/download_pdf', methods=['POST'])
 def download_pdf():
@@ -308,7 +314,11 @@ def download_pdf():
     response.headers['Content-Disposition'] = 'attachment; filename=hasil_plagiarisme.pdf'
     return response
 
+# def update():
+#     reference = read_reference_docs()
+#     reference_docs = reference
 
 if __name__ == '__main__':
+    reference_docs = read_reference_docs()
     app.run(debug=True)
 

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Ringkasan Preprocessing</title>
+</head>
+<body>
+    <h2>📄 Ringkasan Preprocessing Jurnal</h2>
+    <p>Total dokumen: {{ total }}</p>
+    <p>✅ Berhasil: {{ sukses }}</p>
+    <p>❌ Gagal: {{ gagal }}</p>
+
+    <h3>Detail:</h3>
+    <ul>
+        {% for log in hasil %}
+            <li>{{ log }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">← Kembali ke Upload</a>
+</body>
+</html>
