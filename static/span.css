@@ -1,0 +1,135 @@
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: rgb(249, 244, 238);
+      color: #333;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .logo img {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p.lead {
+      font-size: 1.2em;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: rgb(249, 244, 238);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .cta-button:hover {
+      background-color: #0f78d4;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: rgb(249, 244, 238);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .feature-card i {
+      font-size: 28px;
+      color: #1e90ff;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .about {
+      background-color: rgb(249, 244, 238);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .about h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .about p {
+      line-height: 1.6;
+      color: #444;
+      text-align: justify;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #999;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .feature-card {
+        padding: 16px;
+      }
+
+      .about {
+        padding: 20px;
+      }
+      body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }

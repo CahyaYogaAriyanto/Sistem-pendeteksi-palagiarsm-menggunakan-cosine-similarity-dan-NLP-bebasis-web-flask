@@ -1,0 +1,133 @@
+    body {
+      font-family: 'Inter', sans-serif;
+      background: rgb(249, 244, 238);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 8px 8px 16px #d1d9e6,
+                  -8px -8px 16px #ffffff;
+      animation: fadeIn 0.6s ease;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    textarea{
+      max-height: 400px;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+    label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  input[type="text"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+.message {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    border-radius: 8px;
+    color: #2e7d32;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    max-width: 400px;
+}
+.message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+  .error {
+    background-color: #fdecea;
+    border-left: 5px solid #e53935;
+    color: #b71c1c;
+  }
+    #wordCount {
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+      margin-top: -10px;
+    }
+
+    .btn-upload {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-upload:hover {
+      background: linear-gradient(135deg, #00f2fe 0%,#4facfe 100%);
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    .fade-out {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+    }
+
+    .fade-in {
+      opacity: 1;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media screen and (max-width: 640px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .progress-container {
+        width: 80%;
+      }
+    }

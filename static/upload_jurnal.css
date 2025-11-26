@@ -1,0 +1,136 @@
+   body {
+      font-family: 'Inter', sans-serif;
+      background: rgb(249, 244, 238);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 8px 8px 16px #d1d9e6,
+                  -8px -8px 16px #ffffff;
+      animation: fadeIn 0.6s ease;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    textarea{
+      max-height: 400px;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    #wordCount {
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+      margin-top: -10px;
+    }
+
+    .btn-deteksi {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-deteksi:hover {
+      background: linear-gradient(135deg, #00f2fe 0%,#4facfe 100%);
+    }
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.95);
+      z-index: 999;
+      text-align: center;
+      padding-top: 15%;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 20px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .progress-container {
+      width: 60%;
+      background-color: #e0e0e0;
+      border-radius: 20px;
+      margin: 10px auto;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 20px;
+      background-color: #3498db;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+    .cancel-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #e74c3c;
+      color: white;
+      width: 200px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cancel-btn:hover {
+      background: #c0392b;
+    }
+
+    @media screen and (max-width: 640px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .progress-container {
+        width: 80%;
+      }
+    }

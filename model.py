@@ -82,6 +82,7 @@ def preprocess_text(text):
 
     # Hapus angka sisa
     text = re.sub(r'\d+', ' ', text)
+    
 
     # Hapus simbol selain huruf dan spasi
     text = re.sub(r'[^a-z\s]', ' ', text)
@@ -95,18 +96,12 @@ def preprocess_text(text):
     # Stopword Bahasa Indonesia + tambahan khusus jurnal
     stop_words = set(stopwords.words('indonesian'))
     stop_words.update(custom_stopwords)
-    # stop_words.update([
-    #     'work', 'licensed', 'license', 'creativecommons', 'attribution', 'noncommercial', 'international', 
-    #     'volume', 'nomor', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus',
-    #     'september', 'oktober', 'november', 'desember', 'doi', 'issn', 'eissn', 'pissn', 'journal', 'computing', 
-    #     'remik', 'riset', 'ejurnal', 'informatika', 'komputer', 'sistem', 'informasi', 'pengembangan'
-    # ])
     stop_words.update([
     'licensed', 'license', 'creativecommons', 'attribution', 'noncommercial', 'international',
     'volume', 'nomor', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus',
     'september', 'oktober', 'november', 'desember', 'doi', 'issn', 'eissn', 'pissn', 'journal', 
     'computing', 'remik', 'riset', 'ejurnal', 'informatika', 'komputer', 'sistem', 'informasi', 
-    'pengembangan', 'http', 'https', 'www','1','2','3','4','5','6','7','8','9','0'
+    'pengembangan', 'http', 'https', 'www','1','2','3','4','5','6','7','8','9','0','August 2022 e-ISSN:'
     ])
 
     # Filter stopwords
@@ -117,7 +112,6 @@ def preprocess_text(text):
     tokens = [stemmer.stem(word) for word in tokens]
 
     return ' '.join(tokens)
-
 
 def read_reference_docs():
     docs = []
@@ -179,7 +173,6 @@ def find_matching_sentences(test_sentences, reference_sentences, threshold=0.7, 
 def lop_prosesing():
     read_reference_docs()
 
-
 @app.route('/')
 def index():
     return render_template('upload.html')
@@ -192,9 +185,9 @@ def hasil():
         filename = None
 
         if text_input and (not uploaded_file or uploaded_file.filename == ''):
-            # Jika textarea diisi dan file tidak diupload
+            # Jika textarea 
             test_text = text_input
-            filename = "input_text.txt"  # Bisa dibuat nama default
+            filename = "input_text"  
         elif uploaded_file and uploaded_file.filename != '':
             filename = secure_filename(uploaded_file.filename)
             if filename.endswith('.txt') or filename.endswith('.pdf'):
@@ -259,7 +252,6 @@ def hasil():
 
     return render_template('upload.html')
 
-
 @app.route('/upload_jurnal', methods=['GET', 'POST'])
 def upload_jurnal():
     message = None
@@ -286,18 +278,24 @@ def upload_jurnal():
                         "nama_jurnal": nama_jurnal
                     }).execute()
                     message = f"Sukses mengunggah dan menyimpan data jurnal: {filename}"
-                    global reference_docs
-                    reference_docs = read_reference_docs()
+                    # global reference_docs
+                    # reference_docs = read_reference_docs()
                 except Exception as e:
                     message = f"Gagal mengunggah file: {e}"
     return render_template('upload_jurnal.html', message=message)
+
 @app.route('/download_pdf', methods=['POST'])
 def download_pdf():
     filename = request.form.get('filename')
     plagiarism_percent = request.form.get('plagiarism_percent')
     results_json = request.form.get('results_json')
-    results = json.loads(results_json)
 
+    try:
+        results = json.loads(results_json)
+    except Exception as e:
+        return f"Error parsing JSON: {e}", 400
+
+    # Render template with data
     rendered = render_template(
         'results.html',
         filename=filename,
@@ -305,18 +303,20 @@ def download_pdf():
         results=results
     )
 
-    config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
+    # Ganti path ini sesuai lokasi wkhtmltopdf di komputermu
+    config = pdfkit.configuration(
+        wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    )
 
-    pdf = pdfkit.from_string(rendered, False, configuration=config)
+    try:
+        pdf = pdfkit.from_string(rendered, False, configuration=config)
+    except Exception as e:
+        return f"Gagal membuat PDF: {e}", 500
 
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=hasil_plagiarisme.pdf'
     return response
-
-# def update():
-#     reference = read_reference_docs()
-#     reference_docs = reference
 
 if __name__ == '__main__':
     reference_docs = read_reference_docs()
